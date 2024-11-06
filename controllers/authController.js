@@ -6,10 +6,16 @@ import sign from "jsonwebtoken"; // Import the entire jsonwebtoken module
 const JWT_SECRET = process.env.JWT_SECRET;
 
 export async function register(req, res) {
-  const { username, password } = req.body;
+  console.log (req.body)
+  
+  const { name, contactNumber, username, password } = req.body;
+  // Validate input fields
+  if (!name || !contactNumber || !username || !password) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
   try {
-    const user = new User({ username, password });
-    await user.save();
+    const User = new User( name, contactNumber, username, password );
+    await User.save();
     res.status(201).send("User registered");
   } catch (error) {
     res.status(500).json({ message: "Error registering user", error });
