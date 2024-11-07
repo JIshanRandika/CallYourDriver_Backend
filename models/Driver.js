@@ -1,14 +1,7 @@
-import { Schema, model } from "mongoose"; // Use import for controllers
-
-const Driver = new Schema({
+import { Schema, model } from 'mongoose';
+const driverSchema = new Schema({
   name: { type: String, required: true },
   contactNumber: { type: String, required: true },
-  vehicleNumber: { type: String, required: true },
-  category: { type: String, required: true },
-  vehiclePark: { type: String, required: true },
-  isAvailable: { type: Boolean, default: true },
+  vehicleNumber: { type: String, required: true }
 });
-
-export default Driver; // This is the default export
-
-
+export default model('Driver', driverSchema);
