@@ -2,8 +2,8 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const dotenv = require("dotenv");
-const User = require("./models/User");
-const Driver = require("./models/Driver");
+const User = require("./models/User").default;
+const Driver = require("./models/Driver").default;
 
 dotenv.config();
 
