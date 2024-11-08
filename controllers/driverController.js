@@ -1,6 +1,6 @@
-import Driver, { find, findById, findByIdAndUpdate, findByIdAndDelete } from '../models/Driver';
+import Driver from '../models/Driver.js';
 
-export async function createDriver(req, res) {
+export const createDriver = async (req, res) => {
   try {
     const driver = new Driver(req.body);
     await driver.save();
@@ -8,43 +8,43 @@ export async function createDriver(req, res) {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-}
+};
 
-export async function getDrivers(req, res) {
+export const getDrivers = async (req, res) => {
   try {
-    const drivers = await find();
+    const drivers = await Driver.find();
     res.json(drivers);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-}
+};
 
-export async function getDriver(req, res) {
+export const getDriver = async (req, res) => {
   try {
-    const driver = await findById(req.params.id);
+    const driver = await Driver.findById(req.params.id);
     if (!driver) return res.status(404).json({ message: 'Driver not found' });
     res.json(driver);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-}
+};
 
-export async function updateDriver(req, res) {
+export const updateDriver = async (req, res) => {
   try {
-    const driver = await findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const driver = await Driver.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!driver) return res.status(404).json({ message: 'Driver not found' });
     res.json(driver);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-}
+};
 
-export async function deleteDriver(req, res) {
+export const deleteDriver = async (req, res) => {
   try {
-    const driver = await findByIdAndDelete(req.params.id);
+    const driver = await Driver.findByIdAndDelete(req.params.id);
     if (!driver) return res.status(404).json({ message: 'Driver not found' });
     res.json({ message: 'Driver deleted' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-}
+};

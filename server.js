@@ -1,12 +1,14 @@
-require('dotenv').config();
-import express, { json } from 'express';
-import connectDB from './config/db';
-import userRoutes from './routes/userRoutes';
-import driverRoutes from './routes/driverRoutes';
+import express from 'express';
+import dotenv from 'dotenv';
+import connectDB from './config/db.js';
+import userRoutes from './routes/userRoutes.js';
+import driverRoutes from './routes/driverRoutes.js';
 
+dotenv.config();
 const app = express();
+
 connectDB();
-app.use(json());
+app.use(express.json());
 
 app.use('/api/users', userRoutes);
 app.use('/api/drivers', driverRoutes);

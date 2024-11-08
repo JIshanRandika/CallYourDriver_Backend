@@ -1,15 +1,15 @@
-import { genSalt, hash, compare } from 'bcryptjs';
-import { sign } from 'jsonwebtoken';
-import User, { findOne } from '../models/User';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import User from '../models/User.js';
 
-export async function registerUser(req, res) {
+export const registerUser = async (req, res) => {
   try {
     const { username, password } = req.body;
-    const user = await findOne({ username });
+    const user = await User.findOne({ username });
     if (user) return res.status(400).json({ message: 'User already exists' });
 
-    const salt = await genSalt(10);
-    const hashedPassword = await hash(password, salt);
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
     const newUser = new User({ username, password: hashedPassword });
     await newUser.save();
@@ -17,24 +17,24 @@ export async function registerUser(req, res) {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-}
+};
 
-export async function loginUser(req, res) {
+export const loginUser = async (req, res) => {
   try {
     const { username, password } = req.body;
-    const user = await findOne({ username });
+    const user = await User.findOne({ username });
     if (!user) return res.status(400).json({ message: 'Invalid credentials' });
 
-    const isMatch = await compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
-    const token = sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     res.json({ token });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-}
+};
 
-export function logoutUser(req, res) {
+export const logoutUser = (req, res) => {
   res.json({ message: 'Logged out successfully' });
-}
+};

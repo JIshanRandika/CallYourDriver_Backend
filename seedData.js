@@ -1,61 +1,69 @@
-// seedUserData.js
-const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
-const dotenv = require("dotenv");
-const User = require("./models/User").default;
-const Driver = require("./models/Driver").default;
+import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
+import dotenv from 'dotenv';
+import User from './models/User.js';
+import Driver from './models/Driver.js';
 
 dotenv.config();
 
-// Database connection
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log("Connected to MongoDB for seeding"))
-  .catch((err) => console.error("MongoDB connection error:", err));
 
-// Define initial user data
-const users = [
-  { name:"Ishan", contactNumber:"0715757700", username: "ishan", password: "1998" }
-];
-
-// Define initial driver data
-const drivers = [
-  { name: "John Doe", vehicleNumber: "AB-1234", contactNumber: "555-1234", category: "Car", vehiclePark: "Central", isAvailable: true },
-  { name: "Jane Smith", vehicleNumber: "CD-5678", contactNumber: "555-5678", category: "Mini car", vehiclePark: "North", isAvailable: true },
-  { name: "Mike Brown", vehicleNumber: "EF-9101", contactNumber: "555-9101", category: "Van", vehiclePark: "East", isAvailable: true },
-  { name: "Emily Davis", vehicleNumber: "GH-2345", contactNumber: "555-2345", category: "ThreeWheel", vehiclePark: "West", isAvailable: true },
-  { name: "Chris Wilson", vehicleNumber: "IJ-6789", contactNumber: "555-6789", category: "Bike", vehiclePark: "South", isAvailable: true },
-];
-
-// Seed function to insert users
-const seedData = async () => {
+// Connect to MongoDB
+const connectDB = async () => {
   try {
-     // Clear existing users and drivers
-     await User.deleteMany();
-     await Driver.deleteMany();
-
-    // Hash passwords and create user entries
-    const hashedUsers = await Promise.all(
-      users.map(async (user) => ({
-        name: user.name,
-        contactNumber: user.contactNumber,
-        username: user.username,
-        password: await bcrypt.hash(user.password, 10),
-      }))
-    );
-
-    // Insert users into the database
-    await User.insertMany(hashedUsers);
-    console.log("Users have been seeded successfully");
-
-    // Insert drivers into the database
-    await Driver.insertMany(drivers);
-    console.log("Drivers have been seeded successfully");
-
-    mongoose.connection.close();
+    await mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+    console.log('MongoDB connected');
   } catch (error) {
-    console.error("Error seeding users:", error);
-    mongoose.connection.close();
+    console.error('MongoDB connection error:', error.message);
+    process.exit(1);
   }
 };
 
-seedData();
+// Seed Users
+const seedUsers = async () => {
+  const users = [
+    {
+      username: 'admin',
+      password: await bcrypt.hash('admin123', 10),
+    },
+    {
+      username: 'user1',
+      password: await bcrypt.hash('user123', 10),
+    },
+  ];
+  await User.deleteMany();
+  await User.insertMany(users);
+  console.log('Users seeded');
+};
+
+// Seed Drivers
+const seedDrivers = async () => {
+  const drivers = [
+    {
+      name: 'John Doe',
+      contactNumber: '1234567890',
+      vehicleNumber: 'ABC123',
+    },
+    {
+      name: 'Jane Smith',
+      contactNumber: '0987654321',
+      vehicleNumber: 'XYZ789',
+    },
+  ];
+  await Driver.deleteMany();
+  await Driver.insertMany(drivers);
+  console.log('Drivers seeded');
+};
+
+// Run seed functions and disconnect
+const seedData = async () => {
+  await connectDB();
+  await seedUsers();
+  await seedDrivers();
+  mongoose.disconnect();
+  console.log('Seeding complete and MongoDB disconnected');
+};
+
+seedData().catch((error) => {
+  console.error('Seeding error:', error.message);
+  mongoose.disconnect();
+});
