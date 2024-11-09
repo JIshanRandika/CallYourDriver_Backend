@@ -11,8 +11,8 @@ const driverSchema = new mongoose.Schema({
   category: { type: String, required: true },
   parkName: { type: String, required: true },
   points: { type: Number, default: 0 }, // Driver points
-  dailySuggestions: { type: Number, default: 0 },  // Track suggestions per day
-  totalSuggestions: { type: Number, default: 0 }, 
+  dailySuggestions: { type: Number, default: 0 }, // Track suggestions per day
+  totalSuggestions: { type: Number, default: 0 }, // Track total suggestions for each driver
 });
 
 const Driver = mongoose.model('Driver', driverSchema);
