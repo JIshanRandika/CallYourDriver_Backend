@@ -120,7 +120,7 @@ export const suggestDriver = async (req, res) => {
 
     // Select driver with the fewest daily suggestions
     const selectedDriver = drivers[0];
-    selectedDriver.points -= 10;  // Deduct points
+    // selectedDriver.points -= 10;  // Deduct points
     selectedDriver.dailySuggestions += 1;  // Increment daily count
     selectedDriver.totalSuggestions += 1;  // Increment total count
 
@@ -137,6 +137,48 @@ export const suggestDriver = async (req, res) => {
   } catch (error) {
     console.error('Error suggesting driver:', error);
     res.status(500).json({ message: 'Server error suggesting driver' });
+  }
+};
+
+// Deduct 10 points from a driver based on contact number
+export const deductPointsByContactNumber = async (req, res) => {
+  const { contactNumber } = req.body;
+
+  if (!contactNumber) {
+    return res.status(400).json({ message: 'Contact number is required' });
+  }
+
+  try {
+    // Find the driver by contact number
+    const driver = await Driver.findOne({ contactNumber });
+
+    if (!driver) {
+      return res.status(404).json({ message: 'Driver not found' });
+    }
+
+    // Check if the driver has enough points
+    if (driver.points < 10) {
+      return res.status(400).json({ message: 'Not enough points to deduct' });
+    }
+
+    // Deduct 10 points
+    driver.points -= 10;
+
+    // Save the updated driver object
+    await driver.save();
+
+    // Send a success response
+    res.json({
+      message: 'Points deducted successfully',
+      driver: {
+        name: driver.name,
+        contactNumber: driver.contactNumber,
+        points: driver.points,
+      },
+    });
+  } catch (error) {
+    console.error('Error deducting points:', error);
+    res.status(500).json({ message: 'Server error deducting points' });
   }
 };
 
