@@ -1,8 +1,34 @@
 import Driver from '../models/Driver.js';
 
+// Create a new driver
 export const createDriver = async (req, res) => {
   try {
-    const driver = new Driver(req.body);
+    const {
+      name,
+      contactNumber,
+      vehicleNumber,
+      availableDays,
+      availabilityStartTime,
+      availabilityEndTime,
+      currentAvailability,
+      category,
+      parkName,
+      points
+    } = req.body;
+
+    const driver = new Driver({
+      name,
+      contactNumber,
+      vehicleNumber,
+      availableDays,
+      availabilityStartTime,
+      availabilityEndTime,
+      currentAvailability,
+      category,
+      parkName,
+      points
+    });
+
     await driver.save();
     res.status(201).json(driver);
   } catch (error) {
@@ -10,6 +36,7 @@ export const createDriver = async (req, res) => {
   }
 };
 
+// Get all drivers
 export const getDrivers = async (req, res) => {
   try {
     const drivers = await Driver.find();
@@ -19,6 +46,7 @@ export const getDrivers = async (req, res) => {
   }
 };
 
+// Get a single driver by ID
 export const getDriver = async (req, res) => {
   try {
     const driver = await Driver.findById(req.params.id);
@@ -29,9 +57,23 @@ export const getDriver = async (req, res) => {
   }
 };
 
+// Update a driver by ID
 export const updateDriver = async (req, res) => {
   try {
-    const driver = await Driver.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const updates = {
+      name: req.body.name,
+      contactNumber: req.body.contactNumber,
+      vehicleNumber: req.body.vehicleNumber,
+      availableDays: req.body.availableDays,
+      availabilityStartTime: req.body.availabilityStartTime,
+      availabilityEndTime: req.body.availabilityEndTime,
+      currentAvailability: req.body.currentAvailability,
+      category: req.body.category,
+      parkName: req.body.parkName,
+      points: req.body.points
+    };
+
+    const driver = await Driver.findByIdAndUpdate(req.params.id, updates, { new: true });
     if (!driver) return res.status(404).json({ message: 'Driver not found' });
     res.json(driver);
   } catch (error) {
@@ -39,6 +81,7 @@ export const updateDriver = async (req, res) => {
   }
 };
 
+// Delete a driver by ID
 export const deleteDriver = async (req, res) => {
   try {
     const driver = await Driver.findByIdAndDelete(req.params.id);
