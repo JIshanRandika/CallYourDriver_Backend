@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import userRoutes from './routes/userRoutes.js';
 import driverRoutes from './routes/driverRoutes.js';
+import cronJob from './resetDailySuggestions.js';  // Import the cron job file
 
 dotenv.config();
 const app = express();
