@@ -18,6 +18,6 @@ router.put('/:id', auth, updateDriver);
 router.delete('/:id', auth, deleteDriver);
 
 // Suggest driver route
-router.post('/suggest', suggestDriver);
+router.post('/suggest', auth, suggestDriver);
 
 export default router;
