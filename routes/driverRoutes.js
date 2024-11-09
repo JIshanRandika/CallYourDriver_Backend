@@ -5,7 +5,8 @@ import {
   getDrivers,
   getDriver,
   updateDriver,
-  deleteDriver
+  deleteDriver,
+  suggestDriver
 } from '../controllers/driverController.js';
 
 const router = express.Router();
@@ -15,5 +16,8 @@ router.get('/', auth, getDrivers);
 router.get('/:id', auth, getDriver);
 router.put('/:id', auth, updateDriver);
 router.delete('/:id', auth, deleteDriver);
+
+// Suggest driver route
+router.post('/suggest', suggestDriver);
 
 export default router;
