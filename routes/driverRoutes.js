@@ -6,7 +6,8 @@ import {
   getDriver,
   updateDriver,
   deleteDriver,
-  suggestDriver
+  suggestDriver,
+  deductPointsByContactNumber
 } from '../controllers/driverController.js';
 
 const router = express.Router();
@@ -19,5 +20,7 @@ router.delete('/:id', auth, deleteDriver);
 
 // Suggest driver route
 router.post('/suggest', auth, suggestDriver);
+
+router.post('/deductPoints', auth, deductPointsByContactNumber);
 
 export default router;

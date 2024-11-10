@@ -1,5 +1,5 @@
 import Driver from '../models/Driver.js';
-
+import moment from 'moment';
 // Create a new driver
 export const createDriver = async (req, res) => {
   try {
@@ -94,6 +94,7 @@ export const deleteDriver = async (req, res) => {
 
 // Suggest a driver
 export const suggestDriver = async (req, res) => {
+  // console.log(req.body);
   const { category, parkName } = req.body;
   const currentTime = moment();
 
