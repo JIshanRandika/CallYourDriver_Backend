@@ -34,12 +34,12 @@ const parks = [
 const categories = [
   { name: 'Threewheel 🛺' },
   { name: 'Bike 🛵' },
-  { name: 'Mini Car 🚙' },
-  { name: 'Car 🚗' },
-  { name: 'Mini Van 🚌' },
-  { name: 'Van 🚐' },
-  { name: 'Mini Lorry 🚛' },
-  { name: 'Lorry 🚚' },
+  { name: 'Mini Car 🚙', isDisabled: true },
+  { name: 'Car 🚗', isDisabled: true },
+  { name: 'Mini Van 🚌', isDisabled: true },
+  { name: 'Van 🚐', isDisabled: true },
+  { name: 'Mini Lorry 🚛', isDisabled: true },
+  { name: 'Lorry 🚚', isDisabled: true },
 ];
 
 // Sample driver data
