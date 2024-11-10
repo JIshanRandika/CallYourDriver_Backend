@@ -97,6 +97,7 @@ export const suggestDriver = async (req, res) => {
   // console.log(req.body);
   const { category, parkName } = req.body;
   const currentTime = moment();
+  const todayDay = currentTime.format('dddd'); // Get today's day name (e.g., "Monday", "Tuesday")
 
   try {
     let drivers = await Driver.find({
@@ -109,7 +110,8 @@ export const suggestDriver = async (req, res) => {
     drivers = drivers.filter(driver => {
       const startTime = moment(driver.availabilityStartTime, 'HH:mm');
       const endTime = moment(driver.availabilityEndTime, 'HH:mm');
-      return currentTime.isBetween(startTime, endTime);
+      const isAvailableToday = driver.availableDays.includes(todayDay);
+      return isAvailableToday && currentTime.isBetween(startTime, endTime);
     });
 
     if (drivers.length === 0) {
