@@ -4,6 +4,8 @@ import dotenv from 'dotenv';
 
 import Driver from './models/Driver.js';
 import User from './models/User.js';
+import Park from './models/Park.js';
+import Category from './models/Category.js';
 
 dotenv.config();
 
@@ -20,6 +22,25 @@ const connectDB = async () => {
     process.exit(1);
   }
 };
+
+// Sample park data
+const parks = [
+  { name: 'Park A' },
+  { name: 'Park B' },
+  { name: 'Park C' },
+];
+
+// Sample category data
+const categories = [
+  { name: 'Threewheel 🛺' },
+  { name: 'Bike 🛵' },
+  { name: 'Mini Car 🚙' },
+  { name: 'Car 🚗' },
+  { name: 'Mini Van 🚌' },
+  { name: 'Van 🚐' },
+  { name: 'Mini Lorry 🚛' },
+  { name: 'Lorry 🚚' },
+];
 
 // Sample driver data
 const drivers = [
@@ -84,8 +105,18 @@ const seedData = async () => {
     // Clear existing data
     await Driver.deleteMany();
     await User.deleteMany();
+    await Park.deleteMany();
+    await Category.deleteMany();
 
     console.log('Existing data cleared');
+
+    // Insert parks
+    await Park.insertMany(parks);
+    console.log('Park data seeded');
+
+    // Insert categories
+    await Category.insertMany(categories);
+    console.log('Category data seeded');
 
     // Insert drivers
     await Driver.insertMany(drivers);
