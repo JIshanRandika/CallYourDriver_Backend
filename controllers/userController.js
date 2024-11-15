@@ -40,3 +40,28 @@ export const loginUser = async (req, res) => {
 export const logoutUser = (req, res) => {
   res.json({ message: 'Logged out successfully' });
 };
+
+export const resetPassword = async (req, res) => {
+  const { username, newPassword } = req.body;
+
+  try {
+    // Find user by username
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Hash the new password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    // Update the user's password
+    user.password = hashedPassword;
+    await user.save();
+
+    res.status(200).json({ message: 'Password updated successfully' });
+  } catch (error) {
+    console.error('Error resetting password:', error);
+    res.status(500).json({ message: 'Error resetting password' });
+  }
+};
