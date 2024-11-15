@@ -111,6 +111,9 @@ export const suggestDriver = async (req, res) => {
       const startTime = moment(driver.availabilityStartTime, 'HH:mm');
       const endTime = moment(driver.availabilityEndTime, 'HH:mm');
       const isAvailableToday = driver.availableDays.includes(todayDay);
+      console.log(startTime)
+      console.log(endTime)
+      console.log(todayDay)
       return isAvailableToday && currentTime.isBetween(startTime, endTime);
     });
 

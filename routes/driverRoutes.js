@@ -19,7 +19,7 @@ router.put('/:id', auth, updateDriver);
 router.delete('/:id', auth, deleteDriver);
 
 // Suggest driver route
-router.post('/suggest', auth, suggestDriver);
+router.post('/suggest',  suggestDriver);
 
 router.post('/deductPoints', auth, deductPointsByContactNumber);
 
