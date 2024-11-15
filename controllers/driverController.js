@@ -117,6 +117,7 @@ export const suggestDriver = async (req, res) => {
       return isAvailableToday && currentTime.isBetween(startTime, endTime);
     });
 
+    console.log(drivers.length)
     if (drivers.length === 0) {
       return res.status(404).json({ message: 'No drivers available matching criteria' });
     }
