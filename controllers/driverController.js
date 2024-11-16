@@ -92,14 +92,67 @@ export const deleteDriver = async (req, res) => {
   }
 };
 
-// Suggest a driver
+// // Suggest a driver
+// export const suggestDriver = async (req, res) => {
+//   // console.log(req.body);
+//   const { category, parkName } = req.body;
+//   const currentTime = moment();
+//   const todayDay = currentTime.format('dddd'); // Get today's day name (e.g., "Monday", "Tuesday")
+
+//   try {
+//     let drivers = await Driver.find({
+//       category,
+//       parkName,
+//       currentAvailability: true,
+//       points: { $gte: 10 },
+//     });
+
+//     drivers = drivers.filter(driver => {
+//       const startTime = moment(driver.availabilityStartTime, 'HH:mm');
+//       const endTime = moment(driver.availabilityEndTime, 'HH:mm');
+//       const isAvailableToday = driver.availableDays.includes(todayDay);
+//       console.log(startTime)
+//       console.log(endTime)
+//       console.log(todayDay)
+//       return isAvailableToday && currentTime.isBetween(startTime, endTime);
+//     });
+
+//     if (drivers.length === 0) {
+//       return res.status(404).json({ message: 'No drivers available matching criteria' });
+//     }
+
+//     // Sort by dailySuggestions to ensure fair daily distribution
+//     drivers.sort((a, b) => a.dailySuggestions - b.dailySuggestions);
+
+//     // Select driver with the fewest daily suggestions
+//     const selectedDriver = drivers[0];
+//     // selectedDriver.points -= 10;  // Deduct points
+//     selectedDriver.dailySuggestions += 1;  // Increment daily count
+//     selectedDriver.totalSuggestions += 1;  // Increment total count
+
+//     await selectedDriver.save();
+
+//     return res.json({
+//       message: 'Driver suggested successfully',
+//       driver: {
+//         name: selectedDriver.name,
+//         contactNumber: selectedDriver.contactNumber,
+//         vehicleNumber: selectedDriver.vehicleNumber,
+//       },
+//     });
+//   } catch (error) {
+//     console.error('Error suggesting driver:', error);
+//     res.status(500).json({ message: 'Server error suggesting driver' });
+//   }
+// };
+
 export const suggestDriver = async (req, res) => {
-  // console.log(req.body);
   const { category, parkName } = req.body;
   const currentTime = moment();
-  const todayDay = currentTime.format('dddd'); // Get today's day name (e.g., "Monday", "Tuesday")
+  const todayDay = currentTime.format('dddd');
 
   try {
+    // Initial database query
     let drivers = await Driver.find({
       category,
       parkName,
@@ -107,43 +160,83 @@ export const suggestDriver = async (req, res) => {
       points: { $gte: 10 },
     });
 
-    drivers = drivers.filter(driver => {
-      const startTime = moment(driver.availabilityStartTime, 'HH:mm');
-      const endTime = moment(driver.availabilityEndTime, 'HH:mm');
-      const isAvailableToday = driver.availableDays.includes(todayDay);
-      console.log(startTime)
-      console.log(endTime)
-      console.log(todayDay)
-      return isAvailableToday && currentTime.isBetween(startTime, endTime);
-    });
+    // Async filtering function
+    const filterDriversAsync = async (drivers) => {
+      const filterResults = await Promise.all(drivers.map(async (driver) => {
+        try {
+          const startTime = moment(driver.availabilityStartTime, 'HH:mm');
+          const endTime = moment(driver.availabilityEndTime, 'HH:mm');
+          const isAvailableToday = driver.availableDays.includes(todayDay);
+          
+          console.log('Driver:', driver.name);
+          console.log('Start Time:', startTime.format('HH:mm'));
+          console.log('End Time:', endTime.format('HH:mm'));
+          console.log('Today:', todayDay);
+          
+          return {
+            driver,
+            isAvailable: isAvailableToday && currentTime.isBetween(startTime, endTime)
+          };
+        } catch (error) {
+          console.error(`Error processing driver ${driver._id}:`, error);
+          return { driver, isAvailable: false };
+        }
+      }));
 
-    console.log(drivers.length)
-    if (drivers.length === 0) {
-      return res.status(404).json({ message: 'No drivers available matching criteria' });
+      // Filter out only available drivers
+      return filterResults
+        .filter(result => result.isAvailable)
+        .map(result => result.driver);
+    };
+
+    // Apply async filtering
+    const availableDrivers = await filterDriversAsync(drivers);
+
+    if (availableDrivers.length === 0) {
+      return res.status(404).json({ 
+        message: 'No drivers available matching criteria'
+      });
     }
 
-    // Sort by dailySuggestions to ensure fair daily distribution
-    drivers.sort((a, b) => a.dailySuggestions - b.dailySuggestions);
+    // Sort by dailySuggestions for fair distribution
+    availableDrivers.sort((a, b) => a.dailySuggestions - b.dailySuggestions);
 
-    // Select driver with the fewest daily suggestions
-    const selectedDriver = drivers[0];
-    // selectedDriver.points -= 10;  // Deduct points
-    selectedDriver.dailySuggestions += 1;  // Increment daily count
-    selectedDriver.totalSuggestions += 1;  // Increment total count
+    // Select and update driver with fewest suggestions
+    const selectedDriver = availableDrivers[0];
+    
+    // Update driver statistics
+    const updatedDriver = await Driver.findByIdAndUpdate(
+      selectedDriver._id,
+      {
+        $inc: {
+          dailySuggestions: 1,
+          totalSuggestions: 1
+        }
+      },
+      { new: true }
+    );
 
-    await selectedDriver.save();
+    if (!updatedDriver) {
+      return res.status(404).json({
+        message: 'Selected driver no longer available'
+      });
+    }
 
     return res.json({
       message: 'Driver suggested successfully',
       driver: {
-        name: selectedDriver.name,
-        contactNumber: selectedDriver.contactNumber,
-        vehicleNumber: selectedDriver.vehicleNumber,
+        name: updatedDriver.name,
+        contactNumber: updatedDriver.contactNumber,
+        vehicleNumber: updatedDriver.vehicleNumber,
       },
     });
+
   } catch (error) {
     console.error('Error suggesting driver:', error);
-    res.status(500).json({ message: 'Server error suggesting driver' });
+    return res.status(500).json({ 
+      message: 'Server error suggesting driver',
+      error: error.message 
+    });
   }
 };
 
