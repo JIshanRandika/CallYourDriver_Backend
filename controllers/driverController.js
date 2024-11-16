@@ -206,6 +206,7 @@ export const suggestDriver = async (req, res) => {
       filterResults
         .filter(result => result.isAvailable)
         .forEach(result => {
+          console.log("push")
           availableDrivers.push(result.driver);
         });
     
