@@ -220,7 +220,7 @@ export const suggestDriver = async (req, res) => {
     availableDrivers.sort((a, b) => a.dailySuggestions - b.dailySuggestions);
 
     // Select and update driver with fewest suggestions
-    const selectedDriver = availableDrivers[0];
+    const selectedDriver = availableDrivers[0].driver;
     
     // Update driver statistics
     const updatedDriver = await Driver.findByIdAndUpdate(
