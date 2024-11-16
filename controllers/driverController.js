@@ -161,28 +161,7 @@ export const suggestDriver = async (req, res) => {
     });
 
     const filterDriversAsync = async (drivers) => {
-      const filterResults = await Promise.all(drivers.map(async (driver) => {
-        try {
-          const startTime = moment(driver.availabilityStartTime, 'HH:mm');
-          const endTime = moment(driver.availabilityEndTime, 'HH:mm');
-          const isAvailableToday = driver.availableDays.includes(todayDay);
-          
-          console.log('Driver:', driver.name);
-          console.log('Start Time:', startTime.format('HH:mm'));
-          console.log('End Time:', endTime.format('HH:mm'));
-          console.log('Today:', todayDay);
-          
-          return {
-            driver,
-            isAvailable: isAvailableToday && currentTime.isBetween(startTime, endTime)
-          };
-        } catch (error) {
-          console.error(`Error processing driver ${driver._id}:`, error);
-          return { driver, isAvailable: false };
-        }
-      }));
-    
-      // Create a new array to store available drivers
+
       const availableDrivers = [
         {
           _id: '67380ce9f83f98608674f5f3',
@@ -201,14 +180,44 @@ export const suggestDriver = async (req, res) => {
           __v: 0
         }
       ];
+
+      await Promise.all(drivers.map(async (driver) => {
+        try {
+            const startTime = moment(driver.availabilityStartTime, 'HH:mm');
+            const endTime = moment(driver.availabilityEndTime, 'HH:mm');
+            const isAvailableToday = driver.availableDays.includes(todayDay);
+            
+            console.log('Driver:', driver.name);
+            console.log('Start Time:', startTime.format('HH:mm'));
+            console.log('End Time:', endTime.format('HH:mm'));
+            console.log('Today:', todayDay);
+            
+            const result = {
+                driver,
+                isAvailable: isAvailableToday && currentTime.isBetween(startTime, endTime)
+            };
+            console.log("push")
+            availableDrivers.push(result); // Push the result to the array
+            return result;
+            
+        } catch (error) {
+            console.error(`Error processing driver ${driver._id}:`, error);
+            const errorResult = { driver, isAvailable: false };
+            availableDrivers.push(errorResult); // Push error result to array
+            return errorResult;
+        }
+    }));
+    
+      // Create a new array to store available drivers
+      
       
       // Filter and add available drivers to the array
-      filterResults
-        .filter(result => result.isAvailable)
-        .forEach(result => {
-          console.log("push")
-          availableDrivers.push(result.driver);
-        });
+      // filterResults
+      //   .filter(result => result.isAvailable)
+      //   .forEach(result => {
+      //     console.log("push")
+      //     availableDrivers.push(result.driver);
+      //   });
     
       // Return the array of available drivers
       return availableDrivers;
