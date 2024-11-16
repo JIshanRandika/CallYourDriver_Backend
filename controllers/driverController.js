@@ -191,7 +191,7 @@ export const suggestDriver = async (req, res) => {
 
     // Apply async filtering
     const availableDrivers = await filterDriversAsync(drivers);
-    console.log(availableDrivers.length)
+    console.log(availableDrivers)
 
     if (availableDrivers.length === 0) {
       return res.status(404).json({ 
