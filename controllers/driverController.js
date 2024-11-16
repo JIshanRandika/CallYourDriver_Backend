@@ -160,7 +160,6 @@ export const suggestDriver = async (req, res) => {
       points: { $gte: 10 },
     });
 
-    // Async filtering function
     const filterDriversAsync = async (drivers) => {
       const filterResults = await Promise.all(drivers.map(async (driver) => {
         try {
@@ -182,13 +181,21 @@ export const suggestDriver = async (req, res) => {
           return { driver, isAvailable: false };
         }
       }));
-
-      // Filter out only available drivers
-      return filterResults
+    
+      // Create a new array to store available drivers
+      const availableDrivers = [];
+      
+      // Filter and add available drivers to the array
+      filterResults
         .filter(result => result.isAvailable)
-        .map(result => result.driver);
+        .forEach(result => {
+          availableDrivers.push(result.driver);
+        });
+    
+      // Return the array of available drivers
+      return availableDrivers;
     };
-
+    
     // Apply async filtering
     const availableDrivers = await filterDriversAsync(drivers);
     console.log(availableDrivers)
