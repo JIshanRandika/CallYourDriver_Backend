@@ -199,7 +199,8 @@ export const suggestDriver = async (req, res) => {
     //   });
     // }
 
-    // Sort by dailySuggestions for fair distribution
+    if (availableDrivers.length > 0) {
+          // Sort by dailySuggestions for fair distribution
     availableDrivers.sort((a, b) => a.dailySuggestions - b.dailySuggestions);
 
     // Select and update driver with fewest suggestions
@@ -231,6 +232,8 @@ export const suggestDriver = async (req, res) => {
         vehicleNumber: updatedDriver.vehicleNumber,
       },
     });
+    }
+
 
   } catch (error) {
     console.error('Error suggesting driver:', error);
