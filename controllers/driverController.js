@@ -162,24 +162,7 @@ export const suggestDriver = async (req, res) => {
 
     const filterDriversAsync = async (drivers) => {
 
-      const availableDrivers = [
-        {
-          _id: '67380ce9f83f98608674f5f3',
-          name: 'Jane Smith',
-          contactNumber: '0987654321',
-          vehicleNumber: 'CD5678',
-          availableDays: [ 'Tuesday', 'Thursday', 'Sunday', 'Saturday' ],
-          availabilityStartTime: '07:00',
-          availabilityEndTime: '17:00',
-          currentAvailability: true,
-          category: 'Threewheel 🛺',
-          parkName: 'Park A',
-          points: 100,
-          dailySuggestions: 6,
-          totalSuggestions: 6,
-          __v: 0
-        }
-      ];
+      const availableDrivers = [];
 
       await Promise.all(drivers.map(async (driver) => {
         try {
