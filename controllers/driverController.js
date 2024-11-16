@@ -184,29 +184,20 @@ export const suggestDriver = async (req, res) => {
       }));
 
       // Filter out only available drivers
-      const availableDrivers = filterResults
+      return filterResults
         .filter(result => result.isAvailable)
         .map(result => result.driver);
-
-      // Check if no drivers are available here
-      console.log(availableDrivers.length)
-      if (availableDrivers.length === 0) {
-        throw new Error('No drivers available matching criteria');
-      }
-
-      return availableDrivers;
     };
 
-    // Apply async filtering and handle the empty case
-    let availableDrivers;
-    try {
-      availableDrivers = await filterDriversAsync(drivers);
-    } catch (error) {
-      if (error.message === 'No drivers available matching criteria') {
-        return res.status(404).json({ message: error.message });
-      }
-      throw error; // Re-throw other errors to be caught by outer catch block
-    }
+    // Apply async filtering
+    const availableDrivers = await filterDriversAsync(drivers);
+    console.log(availableDrivers.length)
+
+    // if (availableDrivers.length === 0) {
+    //   return res.status(404).json({ 
+    //     message: 'No drivers available matching criteria'
+    //   });
+    // }
 
     // Sort by dailySuggestions for fair distribution
     availableDrivers.sort((a, b) => a.dailySuggestions - b.dailySuggestions);
