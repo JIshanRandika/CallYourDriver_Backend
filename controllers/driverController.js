@@ -193,14 +193,13 @@ export const suggestDriver = async (req, res) => {
     const availableDrivers = await filterDriversAsync(drivers);
     console.log(availableDrivers.length)
 
-    // if (availableDrivers.length === 0) {
-    //   return res.status(404).json({ 
-    //     message: 'No drivers available matching criteria'
-    //   });
-    // }
+    if (availableDrivers.length === 0) {
+      return res.status(404).json({ 
+        message: 'No drivers available matching criteria'
+      });
+    }
 
-    if (availableDrivers.length > 0) {
-          // Sort by dailySuggestions for fair distribution
+    // Sort by dailySuggestions for fair distribution
     availableDrivers.sort((a, b) => a.dailySuggestions - b.dailySuggestions);
 
     // Select and update driver with fewest suggestions
@@ -232,8 +231,6 @@ export const suggestDriver = async (req, res) => {
         vehicleNumber: updatedDriver.vehicleNumber,
       },
     });
-    }
-
 
   } catch (error) {
     console.error('Error suggesting driver:', error);
