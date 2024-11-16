@@ -195,12 +195,12 @@ export const suggestDriver = async (req, res) => {
       // Return the array of available drivers
       return availableDrivers;
     };
-    
+
     // Apply async filtering
     const availableDrivers = await filterDriversAsync(drivers);
     console.log(availableDrivers)
 
-    if (availableDrivers.length === 0) {
+    if (availableDrivers.length == 0) {
       return res.status(404).json({ 
         message: 'No drivers available matching criteria'
       });
