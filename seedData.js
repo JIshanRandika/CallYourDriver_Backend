@@ -25,9 +25,10 @@ const connectDB = async () => {
 
 // Sample park data
 const parks = [
-  { name: 'Park A' },
-  { name: 'Park B' },
-  { name: 'Park C' },
+  { name: 'SUSL Main Gate' },
+  { name: 'Y Junction' },
+  { name: 'Police Junction' },
+  { name: 'Pambahina Junction' },
 ];
 
 // Sample category data
@@ -44,47 +45,388 @@ const categories = [
 
 // Sample driver data
 const drivers = [
+  //Gate
   {
-    name: 'John Doe',
-    contactNumber: '1234567890',
-    vehicleNumber: 'AB1234',
-    availableDays: ['Monday', 'Wednesday', 'Friday'],
+    name: 'Saman Kumara',
+    contactNumber: '+94713080188',
+    vehicleNumber: 'ABI 6916',
+    availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    availabilityStartTime: '08:30',
+    availabilityEndTime: '19:30',
+    currentAvailability: true,
+    category: 'Threewheel 🛺',
+    parkName: 'SUSL Main Gate',
+    points: 10000,
+  },
+  {
+    name: 'Amaashi Gamage',
+    contactNumber: '+94702035656',
+    vehicleNumber: 'QP 5714',
+    availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    availabilityStartTime: '07:30',
+    availabilityEndTime: '20:00',
+    currentAvailability: true,
+    category: 'Threewheel 🛺',
+    parkName: 'SUSL Main Gate',
+    points: 10000,
+  },
+  //Y Junction
+  {
+    name: 'Upul',
+    contactNumber: '+94713234405',
+    vehicleNumber: 'YU 3295',
+    availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
     availabilityStartTime: '08:00',
     availabilityEndTime: '18:00',
     currentAvailability: true,
     category: 'Threewheel 🛺',
-    parkName: 'Park A',
-    points: 100,
+    parkName: 'Y Junction',
+    points: 10000,
   },
   {
-    name: 'Jane Smith',
-    contactNumber: '0987654321',
-    vehicleNumber: 'CD5678',
-    availableDays: ['Tuesday', 'Thursday', 'Sunday'],
-    availabilityStartTime: '07:00',
-    availabilityEndTime: '17:00',
+    name: 'Rupananda',
+    contactNumber: '+94789630741',
+    vehicleNumber: 'ABU4228',
+    availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    availabilityStartTime: '06:00',
+    availabilityEndTime: '22:00',
     currentAvailability: true,
     category: 'Threewheel 🛺',
-    parkName: 'Park A',
-    points: 100,
+    parkName: 'Y Junction',
+    points: 10000,
   },
+
+  //Police Junction
+  {
+    name: 'Mangala',
+    contactNumber: '+94771461003',
+    vehicleNumber: 'ABD 4710',
+    availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    availabilityStartTime: '06:00',
+    availabilityEndTime: '21:00',
+    currentAvailability: true,
+    category: 'Threewheel 🛺',
+    parkName: 'Police Junction',
+    points: 10000,
+  },
+  {
+    name: 'Ranji',
+    contactNumber: '+94711111709',
+    vehicleNumber: 'ABD 9061',
+    availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    availabilityStartTime: '06:00',
+    availabilityEndTime: '21:00',
+    currentAvailability: true,
+    category: 'Threewheel 🛺',
+    parkName: 'Police Junction',
+    points: 10000,
+  },
+  {
+    name: 'Wasana',
+    contactNumber: '+94771455248',
+    vehicleNumber: 'QL 9855',
+    availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    availabilityStartTime: '06:00',
+    availabilityEndTime: '21:00',
+    currentAvailability: true,
+    category: 'Threewheel 🛺',
+    parkName: 'Police Junction',
+    points: 10000,
+  },
+
+  //Pambahinna
+  {
+    name: 'Abeywikrama',
+    contactNumber: '+94712007064',
+    vehicleNumber: '-----',
+    availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    availabilityStartTime: '06:00',
+    availabilityEndTime: '21:00',
+    currentAvailability: true,
+    category: 'Threewheel 🛺',
+    parkName: 'Pambahina Junction',
+    points: 10000,
+  },
+  {
+    name: 'Anil',
+    contactNumber: '+94702935355',
+    vehicleNumber: '-----',
+    availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    availabilityStartTime: '06:00',
+    availabilityEndTime: '21:00',
+    currentAvailability: true,
+    category: 'Threewheel 🛺',
+    parkName: 'Pambahina Junction',
+    points: 10000,
+  },
+
+  ////////Bike/////////
+  //Ishan
+  {
+    name: 'Ishan',
+    contactNumber: '+94715757700',
+    vehicleNumber: 'BJG 9866',
+    availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    availabilityStartTime: '05:30',
+    availabilityEndTime: '23:00',
+    currentAvailability: true,
+    category: 'Bike 🛵',
+    parkName: 'SUSL Main Gate',
+    points: 10000,
+  },
+  {
+    name: 'Ishan',
+    contactNumber: '+94715757700',
+    vehicleNumber: 'BJG 9866',
+    availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    availabilityStartTime: '05:30',
+    availabilityEndTime: '23:00',
+    currentAvailability: true,
+    category: 'Bike 🛵',
+    parkName: 'Y Junction',
+    points: 10000,
+  },
+  {
+    name: 'Ishan',
+    contactNumber: '+94715757700',
+    vehicleNumber: 'BJG 9866',
+    availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    availabilityStartTime: '05:30',
+    availabilityEndTime: '23:00',
+    currentAvailability: true,
+    category: 'Bike 🛵',
+    parkName: 'Police Junction',
+    points: 10000,
+  },
+  {
+    name: 'Ishan',
+    contactNumber: '+94715757700',
+    vehicleNumber: 'BJG 9866',
+    availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    availabilityStartTime: '05:30',
+    availabilityEndTime: '23:00',
+    currentAvailability: true,
+    category: 'Bike 🛵',
+    parkName: 'Pambahina Junction',
+    points: 10000,
+  },
+
+  //Pubudu
+  {
+    name: 'Pubudu',
+    contactNumber: '+94787216991',
+    vehicleNumber: 'MN 9439',
+    availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    availabilityStartTime: '05:30',
+    availabilityEndTime: '23:00',
+    currentAvailability: true,
+    category: 'Bike 🛵',
+    parkName: 'SUSL Main Gate',
+    points: 10000,
+  },
+  {
+    name: 'Pubudu',
+    contactNumber: '+94787216991',
+    vehicleNumber: 'MN 9439',
+    availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    availabilityStartTime: '05:30',
+    availabilityEndTime: '23:00',
+    currentAvailability: true,
+    category: 'Bike 🛵',
+    parkName: 'Y Junction',
+    points: 10000,
+  },
+  {
+    name: 'Pubudu',
+    contactNumber: '+94787216991',
+    vehicleNumber: 'MN 9439',
+    availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    availabilityStartTime: '05:30',
+    availabilityEndTime: '23:00',
+    currentAvailability: true,
+    category: 'Bike 🛵',
+    parkName: 'Police Junction',
+    points: 10000,
+  },
+  {
+    name: 'Pubudu',
+    contactNumber: '+94787216991',
+    vehicleNumber: 'MN 9439',
+    availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    availabilityStartTime: '05:30',
+    availabilityEndTime: '23:00',
+    currentAvailability: true,
+    category: 'Bike 🛵',
+    parkName: 'Pambahina Junction',
+    points: 10000,
+  },
+
+  //Nipun
+  {
+    name: 'Nipun',
+    contactNumber: '+94776977126',
+    vehicleNumber: 'JX 6239',
+    availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    availabilityStartTime: '05:30',
+    availabilityEndTime: '23:00',
+    currentAvailability: true,
+    category: 'Bike 🛵',
+    parkName: 'SUSL Main Gate',
+    points: 10000,
+  },
+  {
+    name: 'Nipun',
+    contactNumber: '+94776977126',
+    vehicleNumber: 'JX 6239',
+    availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    availabilityStartTime: '05:30',
+    availabilityEndTime: '23:00',
+    currentAvailability: true,
+    category: 'Bike 🛵',
+    parkName: 'Y Junction',
+    points: 10000,
+  },
+  {
+    name: 'Nipun',
+    contactNumber: '+94776977126',
+    vehicleNumber: 'JX 6239',
+    availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    availabilityStartTime: '05:30',
+    availabilityEndTime: '23:00',
+    currentAvailability: true,
+    category: 'Bike 🛵',
+    parkName: 'Police Junction',
+    points: 10000,
+  },
+  {
+    name: 'Nipun',
+    contactNumber: '+94776977126',
+    vehicleNumber: 'JX 6239',
+    availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    availabilityStartTime: '05:30',
+    availabilityEndTime: '23:00',
+    currentAvailability: true,
+    category: 'Bike 🛵',
+    parkName: 'Pambahina Junction',
+    points: 10000,
+  },
+
+  //Yasantha
+  {
+    name: 'Yasantha',
+    contactNumber: '+94774825133',
+    vehicleNumber: 'UJ 4800',
+    availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    availabilityStartTime: '05:30',
+    availabilityEndTime: '23:00',
+    currentAvailability: true,
+    category: 'Bike 🛵',
+    parkName: 'SUSL Main Gate',
+    points: 10000,
+  },
+  {
+    name: 'Yasantha',
+    contactNumber: '+94774825133',
+    vehicleNumber: 'UJ 4800',
+    availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    availabilityStartTime: '05:30',
+    availabilityEndTime: '23:00',
+    currentAvailability: true,
+    category: 'Bike 🛵',
+    parkName: 'Y Junction',
+    points: 10000,
+  },
+  {
+    name: 'Yasantha',
+    contactNumber: '+94774825133',
+    vehicleNumber: 'UJ 4800',
+    availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    availabilityStartTime: '05:30',
+    availabilityEndTime: '23:00',
+    currentAvailability: true,
+    category: 'Bike 🛵',
+    parkName: 'Police Junction',
+    points: 10000,
+  },
+  {
+    name: 'Yasantha',
+    contactNumber: '+94774825133',
+    vehicleNumber: 'UJ 4800',
+    availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    availabilityStartTime: '05:30',
+    availabilityEndTime: '23:00',
+    currentAvailability: true,
+    category: 'Bike 🛵',
+    parkName: 'Pambahina Junction',
+    points: 10000,
+  },
+  //Lahiru
+  {
+    name: 'Lahiru',
+    contactNumber: '+94716796141',
+    vehicleNumber: 'TC 3495',
+    availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    availabilityStartTime: '05:30',
+    availabilityEndTime: '23:00',
+    currentAvailability: true,
+    category: 'Bike 🛵',
+    parkName: 'SUSL Main Gate',
+    points: 10000,
+  },
+  {
+    name: 'Lahiru',
+    contactNumber: '+94716796141',
+    vehicleNumber: 'TC 3495',
+    availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    availabilityStartTime: '05:30',
+    availabilityEndTime: '23:00',
+    currentAvailability: true,
+    category: 'Bike 🛵',
+    parkName: 'Y Junction',
+    points: 10000,
+  },
+  {
+    name: 'Lahiru',
+    contactNumber: '+94716796141',
+    vehicleNumber: 'TC 3495',
+    availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    availabilityStartTime: '05:30',
+    availabilityEndTime: '23:00',
+    currentAvailability: true,
+    category: 'Bike 🛵',
+    parkName: 'Police Junction',
+    points: 10000,
+  },
+  {
+    name: 'Lahiru',
+    contactNumber: '+94716796141',
+    vehicleNumber: 'TC 3495',
+    availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    availabilityStartTime: '05:30',
+    availabilityEndTime: '23:00',
+    currentAvailability: true,
+    category: 'Bike 🛵',
+    parkName: 'Pambahina Junction',
+    points: 10000,
+  },
+
 ];
 
 // Sample user data with password hashing
-const users = [
-  {
-    name: 'Ishan',
-    username: 'ishan',
-    password: '1998',
-    contactNumber: '1112223333',
-  },
-  {
-    name: 'Randika',
-    username: 'randika',
-    password: '1998',
-    contactNumber: '4445556666',
-  },
-];
+// const users = [
+//   {
+//     name: 'Ishan',
+//     username: 'Ishan',
+//     password: '1998',
+//     contactNumber: '1112223333',
+//   },
+//   {
+//     name: 'Randika',
+//     username: 'randika',
+//     password: '1998',
+//     contactNumber: '4445556666',
+//   },
+// ];
 
 // Hash passwords for user data
 const hashPasswords = async () => {
@@ -104,7 +446,7 @@ const seedData = async () => {
 
     // Clear existing data
     await Driver.deleteMany();
-    await User.deleteMany();
+    // await User.deleteMany();
     await Park.deleteMany();
     await Category.deleteMany();
 
@@ -123,9 +465,9 @@ const seedData = async () => {
     console.log('Driver data seeded');
 
     // Hash passwords and insert users
-    const hashedUsers = await hashPasswords();
-    await User.insertMany(hashedUsers);
-    console.log('User data seeded');
+    // const hashedUsers = await hashPasswords();
+    // await User.insertMany(hashedUsers);
+    // console.log('User data seeded');
 
     process.exit();
   } catch (error) {
