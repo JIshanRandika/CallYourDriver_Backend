@@ -300,3 +300,27 @@ export const deductPointsByContactNumber = async (req, res) => {
   }
 };
 
+// Toggle current availability via URL
+export const toggleAvailabilityViaURL = async (req, res) => {
+  try {
+    const { id } = req.params; // Get driver ID from the URL
+
+    // Find the driver by ID
+    const driver = await Driver.findById(id);
+    if (!driver) {
+      return res.status(404).json({ message: 'Driver not found' });
+    }
+
+    // Toggle the currentAvailability value
+    driver.currentAvailability = !driver.currentAvailability;
+
+    // Save the updated driver
+    await driver.save();
+
+    // Send a success response as plain text for browser visibility
+    res.send(`Driver availability updated. Current availability: ${driver.currentAvailability}`);
+  } catch (error) {
+    console.error('Error toggling availability:', error);
+    res.status(500).send('Server error updating availability');
+  }
+};
