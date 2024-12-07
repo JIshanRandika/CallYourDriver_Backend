@@ -18,7 +18,7 @@ connectDB();
 app.use(express.json());
 
 // CORS Configuration
-const allowedOrigins = ['http://localhost:3000', 'https://callyourdriver-ef3f0.web.app']; // Add mobile app domains here
+const allowedOrigins = ['http://localhost:3000', 'https://callyourdriver-ef3f0.web.app', 'https://callyourdriver.online']; // Add mobile app domains here
 app.use(
   cors({
     origin: (origin, callback) => {
