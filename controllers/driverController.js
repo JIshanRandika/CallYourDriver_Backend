@@ -170,17 +170,20 @@ export const suggestDriver = async (req, res) => {
             const endTime = moment(driver.availabilityEndTime, 'HH:mm');
             const isAvailableToday = driver.availableDays.includes(todayDay);
             
-            console.log('Driver:', driver.name);
+            // console.log('Driver:', driver.name);
             console.log('Start Time:', startTime.format('HH:mm'));
             console.log('End Time:', endTime.format('HH:mm'));
-            console.log('Today:', todayDay);
+            console.log(currentTime.isBetween(startTime, endTime))
+            // console.log('Today:', todayDay);
             
             const result = {
                 driver,
                 isAvailable: isAvailableToday && currentTime.isBetween(startTime, endTime)
             };
-            console.log("push")
-            availableDrivers.push(result); // Push the result to the array
+            // console.log(result)
+            if(isAvailableToday && currentTime.isBetween(startTime, endTime)){
+              availableDrivers.push(result); // Push the result to the array
+            }
             return result;
             
         } catch (error) {
@@ -208,7 +211,7 @@ export const suggestDriver = async (req, res) => {
 
     // Apply async filtering
     const availableDrivers = await filterDriversAsync(drivers);
-    console.log(availableDrivers)
+    // console.log(availableDrivers)
 
     if (availableDrivers.length == 0) {
       return res.status(404).json({ 
