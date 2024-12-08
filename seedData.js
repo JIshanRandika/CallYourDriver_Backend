@@ -35,12 +35,12 @@ const parks = [
 const categories = [
   { name: 'Threewheel 🛺' },
   { name: 'Bike 🛵' },
-  { name: 'Mini Car 🚙', isDisabled: true },
-  { name: 'Car 🚗', isDisabled: true },
-  { name: 'Mini Van 🚌', isDisabled: true },
-  { name: 'Van 🚐', isDisabled: true },
-  { name: 'Mini Lorry 🚛', isDisabled: true },
-  { name: 'Lorry 🚚', isDisabled: true },
+  // { name: 'Mini Car 🚙', isDisabled: true },
+  // { name: 'Car 🚗', isDisabled: true },
+  // { name: 'Mini Van 🚌', isDisabled: true },
+  // { name: 'Van 🚐', isDisabled: true },
+  // { name: 'Mini Lorry 🚛', isDisabled: true },
+  // { name: 'Lorry 🚚', isDisabled: true },
 ];
 
 // Sample driver data
@@ -52,7 +52,7 @@ const drivers = [
     vehicleNumber: 'ABI 6916',
     availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
     availabilityStartTime: '08:30',
-    availabilityEndTime: '19:30',
+    availabilityEndTime: '21:00',
     currentAvailability: true,
     category: 'Threewheel 🛺',
     parkName: 'SUSL Main Gate',
@@ -135,6 +135,18 @@ const drivers = [
   },
 
   //Pambahinna
+  {
+    name: 'Priyantha',
+    contactNumber: '+94775561971',
+    vehicleNumber: 'QM 4468',
+    availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    availabilityStartTime: '06:00',
+    availabilityEndTime: '21:00',
+    currentAvailability: true,
+    category: 'Threewheel 🛺',
+    parkName: 'Pambahina Junction',
+    points: 10000,
+  },
   {
     name: 'Abeywikrama',
     contactNumber: '+94712007064',
