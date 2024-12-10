@@ -1,5 +1,7 @@
 import Driver from '../models/Driver.js';
-import moment from 'moment';
+// import moment from 'moment';
+import moment from 'moment-timezone';
+
 // Create a new driver
 export const createDriver = async (req, res) => {
   try {
@@ -149,8 +151,19 @@ export const deleteDriver = async (req, res) => {
 export const suggestDriver = async (req, res) => {
   console.log("suggestDriver")
   const { category, parkName } = req.body;
-  const currentTime = moment();
-  const todayDay = currentTime.format('dddd');
+  // Specify your desired timezone, e.g., 'Asia/Colombo'
+
+  // Specify your desired timezone, e.g., 'Asia/Colombo'
+  const timezone = 'Asia/Colombo';
+
+  // Get the current time as a moment object
+  const currentMoment = moment().tz(timezone);
+
+  // Format the date as a string
+  const currentTime = currentMoment.format();
+
+  // Get the day of the week
+  const todayDay = currentMoment.format('dddd');
 
   try {
     // Initial database query
@@ -173,22 +186,22 @@ export const suggestDriver = async (req, res) => {
             const isAvailableToday = driver.availableDays.includes(todayDay);
             
             // console.log('Driver:', driver.name);
-            console.log('Start Time:', startTime.format('HH:mm'));
+            console.log('Start Time:', startTime);
             console.log('End Time:', endTime.format('HH:mm'));
-            console.log('Current Time:', currentTime.format('HH:mm'));
-            console.log(currentTime.isBetween(startTime, endTime))
+            console.log('Current Time:', currentMoment.format('HH:mm'));
+            console.log(currentMoment.isBetween(startTime, endTime))
             // console.log('Today:', todayDay);
             
             const result = {
                 driver,
-                isAvailable: isAvailableToday && currentTime.isBetween(startTime, endTime)
+                isAvailable: isAvailableToday && currentMoment.isBetween(startTime, endTime)
             };
             console.log("condition isAvailableToday")
             console.log(isAvailableToday)
             console.log("currentTime")
             console.log(currentTime)
             console.log("condition currentTime")
-            console.log(currentTime.isBetween(startTime, endTime, 'minute'));
+            console.log(currentMoment.isBetween(startTime, endTime, 'minute'));
 
             // if(isAvailableToday && currentTime.isBetween(startTime, endTime)){
               availableDrivers.push(result); // Push the result to the array
