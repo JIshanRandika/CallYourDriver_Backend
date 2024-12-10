@@ -184,6 +184,8 @@ export const suggestDriver = async (req, res) => {
             };
             console.log("condition isAvailableToday")
             console.log(isAvailableToday)
+            console.log("currentTime")
+            console.log(currentTime)
             console.log("condition currentTime")
             console.log(currentTime.isBetween(startTime, endTime))
             // if(isAvailableToday && currentTime.isBetween(startTime, endTime)){
