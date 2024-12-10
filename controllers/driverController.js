@@ -147,6 +147,7 @@ export const deleteDriver = async (req, res) => {
 // };
 
 export const suggestDriver = async (req, res) => {
+  console.log("suggestDriver")
   const { category, parkName } = req.body;
   const currentTime = moment();
   const todayDay = currentTime.format('dddd');
@@ -161,6 +162,7 @@ export const suggestDriver = async (req, res) => {
     });
 
     const filterDriversAsync = async (drivers) => {
+      console.log("filterDriversAsync")
 
       const availableDrivers = [];
 
