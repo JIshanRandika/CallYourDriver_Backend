@@ -174,6 +174,20 @@ export const suggestDriver = async (req, res) => {
       points: { $gte: 10 },
     });
 
+    function sortDriversByDailySuggestions(originalArray) {
+      return new Promise((resolve) => {
+        // Create a sorted copy of the array
+        const sortedArray = [...originalArray].sort((a, b) => 
+          a.driver.dailySuggestions - b.driver.dailySuggestions
+        );
+        
+        // Simulate a potential async operation with a small delay
+        setTimeout(() => {
+          resolve(sortedArray);
+        }, 100); // Small delay to mimic potential async sorting
+      });
+    }
+
     const filterDriversAsync = async (drivers) => {
       console.log("filterDriversAsync")
 
@@ -186,22 +200,22 @@ export const suggestDriver = async (req, res) => {
             const isAvailableToday = driver.availableDays.includes(todayDay);
             
             // console.log('Driver:', driver.name);
-            console.log('Start Time:', startTime.format('HH:mm'));
-            console.log('End Time:', endTime.format('HH:mm'));
-            console.log('Current Time:', currentMoment.format('HH:mm'));
-            console.log(currentMoment.format('HH:mm') >= startTime.format('HH:mm') && currentMoment.format('HH:mm') <= endTime.format('HH:mm'))
+            // console.log('Start Time:', startTime.format('HH:mm'));
+            // console.log('End Time:', endTime.format('HH:mm'));
+            // console.log('Current Time:', currentMoment.format('HH:mm'));
+            // console.log(currentMoment.format('HH:mm') >= startTime.format('HH:mm') && currentMoment.format('HH:mm') <= endTime.format('HH:mm'))
             // console.log('Today:', todayDay);
             
             const result = {
                 driver,
                 isAvailable: isAvailableToday && currentMoment.isBetween(startTime, endTime)
             };
-            console.log("condition isAvailableToday")
-            console.log(isAvailableToday)
-            console.log("currentTime")
-            console.log(currentTime)
-            console.log("condition currentTime")
-            console.log(currentMoment.isBetween(startTime, endTime, 'minute'));
+            // console.log("condition isAvailableToday")
+            // console.log(isAvailableToday)
+            // console.log("currentTime")
+            // console.log(currentTime)
+            // console.log("condition currentTime")
+            // console.log(currentMoment.isBetween(startTime, endTime, 'minute'));
 
             if(currentMoment.format('HH:mm') >= startTime.format('HH:mm') && currentMoment.format('HH:mm') <= endTime.format('HH:mm')){
               availableDrivers.push(result); // Push the result to the array
@@ -241,11 +255,19 @@ export const suggestDriver = async (req, res) => {
       });
     }
 
+    console.log("availableDrivers")
+    console.log(availableDrivers)
+
     // Sort by dailySuggestions for fair distribution
-    availableDrivers.sort((a, b) => a.dailySuggestions - b.dailySuggestions);
+    // const sortedArray = availableDrivers.sort((a, b) => a.dailySuggestions - b.dailySuggestions);
+    const sortedArray = await sortDriversByDailySuggestions(availableDrivers);
+
+
+    console.log("sortedArray")
+    console.log(sortedArray)
 
     // Select and update driver with fewest suggestions
-    const selectedDriver = availableDrivers[0].driver;
+    const selectedDriver = sortedArray[0].driver;
     
     // Update driver statistics
     const updatedDriver = await Driver.findByIdAndUpdate(
