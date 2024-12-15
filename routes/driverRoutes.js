@@ -8,7 +8,9 @@ import {
   deleteDriver,
   suggestDriver,
   deductPointsByContactNumber,
-  toggleAvailabilityViaURL
+  toggleAvailabilityViaURL,
+  getDriverDetailsbyConctactNumber,
+  toggleAvailability
 } from '../controllers/driverController.js';
 
 const router = express.Router();
@@ -25,5 +27,10 @@ router.post('/suggest',  suggestDriver);
 router.post('/deductPoints', auth, deductPointsByContactNumber);
 
 router.get('/:id/toggleAvailability', toggleAvailabilityViaURL);
+
+router.post('/details', getDriverDetailsbyConctactNumber);
+
+router.post('/toggle-availability', toggleAvailability);
+
 
 export default router;

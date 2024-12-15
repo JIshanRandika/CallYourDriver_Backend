@@ -371,3 +371,28 @@ export const toggleAvailabilityViaURL = async (req, res) => {
     res.status(500).send('Server error updating availability');
   }
 };
+
+// Fetch driver details by contact number
+export const getDriverDetailsbyConctactNumber = async (req, res) => {
+  const { contactNumber } = req.body;
+  try {
+    const drivers = await Driver.find({ contactNumber });
+    if (drivers.length > 0) {
+      return res.status(200).json({ drivers });
+    }
+    return res.status(404).json({ message: 'Driver not found' });
+  } catch (error) {
+    return res.status(500).json({ message: 'Server error' });
+  }
+};  
+
+export const toggleAvailability = async (req, res) => {
+  const { _id, currentAvailability } = req.body;
+  try {
+    await Driver.updateOne({ _id }, { currentAvailability });
+    return res.status(200).json({ message: 'Driver availability updated' });
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
